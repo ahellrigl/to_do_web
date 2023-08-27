@@ -18,6 +18,12 @@ try {
 
 const routes = [
   {
+    path: "/",
+    name: "home",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../components/Home/Home.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     beforeEnter: [isAuthenticatedGuard],
