@@ -73,7 +73,7 @@ import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import ToggleButton from 'primevue/togglebutton';
 
-const app = createApp(App).use(createPinia()).use(router).use(PrimeVue)
+const app = createApp(App).use(router).use(createPinia()).use(PrimeVue)
 .component('Accordion', Accordion)
 .component('AccordionTab', AccordionTab)
 .component('AutoComplete', AutoComplete)

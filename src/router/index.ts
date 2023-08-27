@@ -1,23 +1,34 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import jwtDecode from "jwt-decode";
+import { useAuthStore } from "@/tools/stores/auth.store";
+import { UserInterface } from "@/components/Login/login.interface";
+import isAuthenticatedGuard from "@/tools/authentication/guards/auth-guard";
 
-import Login from '@/components/Login/Login.vue';
-import  TasksManager  from '@/components/TasksManager/TasksManager.vue';
+let idusuario = "0";
 
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import auth from '../tools/authenticate/auth';
+try {
+  const auth = useAuthStore();
+  const token = auth.access_token;
 
-const routes: Array<RouteRecordRaw> = [
+  if (token != undefined) {
+    const decoded: UserInterface = jwtDecode(token);
+    idusuario = decoded.sub;
+  }
+} catch {}
+
+const routes = [
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
+    path: "/login",
+    name: "login",
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../components/Login/Login.vue"),
   },
   {
     path: '/tasksmanager',
     name: 'TasksManager',
-    component: TasksManager,
-    meta: { requiresAuth: true }, // This indicates that the route needs authentication
-  },
+    beforeEnter: [isAuthenticatedGuard],
+    component: () => import("../components/TasksManager/TasksManager.vue")
+  }
 ];
 
 const router = createRouter({
@@ -29,9 +40,3 @@ const router = createRouter({
 });
 
 export default router;
-
-
-
-
-
-

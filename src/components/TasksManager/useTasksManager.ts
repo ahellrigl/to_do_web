@@ -1,5 +1,5 @@
-import { ref, computed, onMounted } from 'vue';
 import { useStoreApp } from '@/store/useStoreApp';
+import { ref, computed, onMounted } from 'vue';
 
 const storeApp = useStoreApp();
 const dialogNewTask = ref(false);
